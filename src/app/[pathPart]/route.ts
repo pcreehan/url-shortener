@@ -10,7 +10,7 @@ const redirectMap = new Map([
   ["servant", "https://servant.io"],
   // Add more mappings as needed
 ]);
-type RedirectFunc = (request: NextRequest, { params }: { params: { pathPart: string[] } }) => NextResponse;
+type RedirectFunc = (request: NextRequest, { params }: { params: { pathPart: string } }) => NextResponse;
 
 export const GET: RedirectFunc = (request, { params }) => handleRedirect(params.pathPart, 307); // Temporary redirect for GE
 export const POST: RedirectFunc = (request, { params }) => handleRedirect(params.pathPart, 308);
@@ -18,8 +18,8 @@ export const PUT = POST;
 export const PATCH = POST;
 export const DELETE = POST;
 
-const handleRedirect = (pathPart: string[], statusCode: number): NextResponse => {
-  const path = pathPart.join("/");
+const handleRedirect = (pathPart: string, statusCode: number): NextResponse => {
+  const path = pathPart;
   const redirectUrl = redirectMap.get(path);
 
   if (redirectUrl) {
